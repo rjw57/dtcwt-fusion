@@ -48,7 +48,7 @@ def merge_mean(xfms):
     # Take low-pass mean
     Yl_mean = np.mean(Yls, axis=0)
 
-    # Convert arrays of arrays of hig-pass image into an array of arrays of
+    # Convert arrays of arrays of high-pass image into an array of arrays of
     # high-pass images for the same level. Then take mean.
     Yh_mean = list(np.mean(x, axis=0) for x in zip(*Yhs))
 
