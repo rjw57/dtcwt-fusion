@@ -28,7 +28,7 @@ log = logging.getLogger()
 
 import sys
 
-from .util import load_and_transform_image
+from .util import load_and_transform_image, inv_transform_and_save_image
 
 from docopt import docopt
 from dtcwt import dtwavexfm2, dtwaveifm2
@@ -86,9 +86,9 @@ def main():
 
     # Set up logging level appropriately
     if opts['--verbose']:
-        log.basicConfig(level=log.INFO)
+        logging.basicConfig(level=logging.INFO)
     else:
-        log.basicConfig(level=log.WARN)
+        logging.basicConfig(level=logging.WARN)
 
     # Get global transform arguments options
     xfmargs = {
@@ -113,12 +113,8 @@ def main():
     log.info('Merging using method "{0}"...'.format(opts['--merge-method']))
     merged_xfm = merge_cb(input_xfmd)
 
-    # Inverse transform merged result
-    merged = dtwaveifm2(merged_xfm[0], merged_xfm[1], biort=xfmargs['biort'], qshift=xfmargs['qshift'])
-
-    # Save merge result
+    # Inverse transform merged result and save
     log.info('Saving result to {0}'.format(opts['<OUTPUT>']))
-    merged_im = Image.fromarray(np.clip(merged, 0, 255).astype(np.uint8))
-    merged_im.save(opts['<OUTPUT>'], format='PNG')
+    inv_transform_and_save_image(opts['<OUTPUT>'], merged_xfm, xfmargs)
 
 # vim:sw=4:sts=4:et

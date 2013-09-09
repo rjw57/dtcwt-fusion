@@ -34,4 +34,14 @@ def load_and_transform_image(filename, xfmargs=None):
     im = as_luminance(Image.open(filename)).astype(np.float32)
     return dtwavexfm2(im, **(xfmargs or {}))
 
+def inv_transform_and_save_image(filename, transform, xfmargs=None):
+    """Inverse transform assuming Yl, Yh = transform passing biort and qshift
+    from xfmargs to dtwaveifm2 if they are present. Save the resulting image to
+    filename in PNG format.
+    
+    """
+    im_array = dtwaveifm2(transform[0], transform[1], biort=xfmargs['biort'], qshift=xfmargs['qshift'])
+    im = Image.fromarray(np.clip(im_array, 0, 255).astype(np.uint8))
+    im.save(filename, format='PNG')
+
 # vim:sw=4:sts=4:et
