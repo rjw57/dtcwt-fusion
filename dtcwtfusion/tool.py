@@ -24,34 +24,16 @@ The merge method can be one of the following:
 from __future__ import print_function, division
 
 import logging
+log = logging.getLogger()
+
 import sys
+
+from .util import load_and_transform_image
 
 from docopt import docopt
 from dtcwt import dtwavexfm2, dtwaveifm2
 from PIL import Image
 import numpy as np
-
-def as_luminance(im):
-    """For 2D arrays, this is a pass-through function. For 3D arrays, compute
-    the luminance of the input via the YUV formula:
-
-    Y = 0.299*R + 0.587*G + 0.114*B
-
-    This assumes that depths 0, 1 and 2 correspond to the red, green and blue
-    planes respectively.
-
-    """
-    im = np.asanyarray(im)
-
-    if len(im.shape) < 3:
-        return im
-
-    return 0.299 * im[:,:,0] + 0.587 * im[:,:,1] + 0.115 * im[:,:,2]
-
-def load_and_transform_image(filename, xfmargs=None):
-    logging.info('Loading image from {0}'.format(filename))
-    im = as_luminance(Image.open(filename)).astype(np.float32)
-    return dtwavexfm2(im, **(xfmargs or {}))
 
 def merge_mean(xfms):
     """Merge low pass and high pass images by taking mean over all frames.
@@ -104,9 +86,9 @@ def main():
 
     # Set up logging level appropriately
     if opts['--verbose']:
-        logging.basicConfig(level=logging.INFO)
+        log.basicConfig(level=log.INFO)
     else:
-        logging.basicConfig(level=logging.WARN)
+        log.basicConfig(level=log.WARN)
 
     # Get global transform arguments options
     xfmargs = {
@@ -119,23 +101,23 @@ def main():
     try:
         merge_cb = MERGE_METHODS[opts['--merge-method']]
     except KeyError:
-        logging.error('Unknown merge method: {0}'.format(opts['--merge-method']))
-        logging.error('Choose from: {1}'.format(', '.join(MERGE_METHODS.keys())))
+        log.error('Unknown merge method: {0}'.format(opts['--merge-method']))
+        log.error('Choose from: {1}'.format(', '.join(MERGE_METHODS.keys())))
         sys.exit(1)
 
     # Load input images and transform them with the DTCWT
-    logging.info('Loading input images')
+    log.info('Loading input images')
     input_xfmd = list(load_and_transform_image(fn, xfmargs=xfmargs) for fn in opts['<IMAGE>'])
 
     # Use selected merge strategy
-    logging.info('Merging using method "{0}"...'.format(opts['--merge-method']))
+    log.info('Merging using method "{0}"...'.format(opts['--merge-method']))
     merged_xfm = merge_cb(input_xfmd)
 
     # Inverse transform merged result
     merged = dtwaveifm2(merged_xfm[0], merged_xfm[1], biort=xfmargs['biort'], qshift=xfmargs['qshift'])
 
     # Save merge result
-    logging.info('Saving result to {0}'.format(opts['<OUTPUT>']))
+    log.info('Saving result to {0}'.format(opts['<OUTPUT>']))
     merged_im = Image.fromarray(np.clip(merged, 0, 255).astype(np.uint8))
     merged_im.save(opts['<OUTPUT>'], format='PNG')
 
