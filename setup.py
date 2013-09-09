@@ -14,7 +14,9 @@ setup(
     entry_points = { 'console_scripts': [
         'dtcwt_register = dtcwtregister.tool:main',
     ] },
-    install_requires = [ 'docopt', 'numpy', 'matplotlib', 'PIL', ],
+    install_requires = [
+        'docopt', 'numpy', 'matplotlib', 'dtcwt',
+    ],
     classifiers = [
         'Development Status :: 4 - Beta',
         'Environment :: Console',
