@@ -9,6 +9,12 @@ Maintainers
 
 * `Rich Wareham <https://github.com/rjw57>`_
 
+Licensing
+---------
+
+This code is licensed under a MIT-style license. See the ``COPYING.txt`` file
+in the source tree for full terms.
+
 References
 ----------
 
