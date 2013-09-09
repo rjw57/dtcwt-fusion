@@ -1,19 +1,19 @@
 """
-Construct a registered image from several input images.
+Construct a fused image from several input images.
 
 Usage:
-    dtcwt_register [options] <OUTPUT> [<IMAGE>...]
+    dtcwt_fuse [options] <OUTPUT> [<IMAGE>...]
 
 Options:
 
     --help, -h              Show a brief usage summary.
     --verbose, -v           Be more verbose in logging output.
     --level-count=N         Use N levels of DT-CWT. [default: 4]
-    --merge-method=METHOD   Use METHOD to merge registered frames.
+    --merge-method=METHOD   Use METHOD to merge frames.
                             See discussion below. [default: separate_phase]
 
-IMAGE specifies one or more images to use as an input frame. The registered
-image is written to <OUTPUT> in PNG format.
+IMAGE specifies one or more images to use as an input frame. The fused image is
+written to <OUTPUT> in PNG format.
 
 The merge method can be one of the following:
 

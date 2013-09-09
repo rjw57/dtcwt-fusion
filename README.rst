@@ -1,3 +1,3 @@
-Registration via DT-CWT
+Image fusion via DT-CWT
 =======================
 

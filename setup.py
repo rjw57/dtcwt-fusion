@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name = 'dtcwtregister',
+    name = 'dtcwtfusion',
     version = '0.1',
     author = 'Rich Wareham',
     author_email = 'rjw57@cantab.net',
@@ -12,7 +12,7 @@ setup(
     license = 'MIT',
     packages = find_packages(),
     entry_points = { 'console_scripts': [
-        'dtcwt_register = dtcwtregister.tool:main',
+        'dtcwt_fuse = dtcwtfusion.tool:main',
     ] },
     install_requires = [
         'docopt', 'numpy', 'matplotlib', 'dtcwt',
