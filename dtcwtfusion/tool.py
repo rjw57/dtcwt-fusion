@@ -31,8 +31,6 @@ import sys
 from .util import load_and_transform_image, inv_transform_and_save_image
 
 from docopt import docopt
-from dtcwt import dtwavexfm2, dtwaveifm2
-from PIL import Image
 import numpy as np
 
 def merge_mean(xfms):
