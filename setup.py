@@ -11,7 +11,7 @@ setup(
     long_description = open('README.rst').read(),
     url = 'https://github.com/rjw57/dtcwt-fusion',
     license = 'MIT',
-    packages = find_packages(),
+    packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     entry_points = { 'console_scripts': [
         'dtcwt_fuse = dtcwtfusion.tool:main',
     ] },
