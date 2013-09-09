@@ -15,7 +15,7 @@ setup(
         'dtcwt_fuse = dtcwtfusion.tool:main',
     ] },
     install_requires = [
-        'docopt', 'numpy', 'matplotlib', 'dtcwt',
+        'docopt', 'numpy', 'Pillow', 'dtcwt',
     ],
     classifiers = [
         'Development Status :: 4 - Beta',

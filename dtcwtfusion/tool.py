@@ -28,10 +28,7 @@ import sys
 
 from docopt import docopt
 from dtcwt import dtwavexfm2, dtwaveifm2
-import matplotlib
-matplotlib.use('pdf')
-
-import matplotlib.pyplot as plt
+from PIL import Image
 import numpy as np
 
 def as_luminance(im):
@@ -53,7 +50,7 @@ def as_luminance(im):
 
 def load_and_transform_image(filename, xfmargs=None):
     logging.info('Loading image from {0}'.format(filename))
-    im = as_luminance(plt.imread(filename)).astype(np.float32)
+    im = as_luminance(Image.open(filename)).astype(np.float32)
     return dtwavexfm2(im, **(xfmargs or {}))
 
 def merge_mean(xfms):
@@ -139,8 +136,7 @@ def main():
 
     # Save merge result
     logging.info('Saving result to {0}'.format(opts['<OUTPUT>']))
-    if len(merged.shape) < 3:
-        merged = plt.cm.gray(merged/255.0)
-    plt.imsave(opts['<OUTPUT>'], merged, format='png')
+    merged_im = Image.fromarray(np.clip(merged, 0, 255).astype(np.uint8))
+    merged_im.save(opts['<OUTPUT>'], format='PNG')
 
 # vim:sw=4:sts=4:et
