@@ -37,6 +37,9 @@ import numpy as np
 
 def merge_mean(xfms):
     """Merge low pass and high pass images by taking mean over all frames.
+
+    This is equivalent to taking the direct mean of all images since all
+    operations are linear.
     
     """
     # Extract an array of low-pass images and an array of arrays of high-pass
