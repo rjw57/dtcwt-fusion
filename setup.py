@@ -9,6 +9,7 @@ setup(
     author_email = 'rjw57@cantab.net',
     description = 'Registration of images via DT-CWT',
     long_description = open('README.rst').read(),
+    url = 'https://github.com/rjw57/dtcwt-fusion',
     license = 'MIT',
     packages = find_packages(),
     entry_points = { 'console_scripts': [
